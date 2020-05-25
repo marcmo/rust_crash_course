@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ufwb version="1.17">
+    <grammar name="MessageFormat" start="id:53" author="Nicola Coretti" email="nicola.coretti@esrlabs.com" complete="yes">
+        <description>tbd</description>
+        <structure name="MessageFormat" id="53" length="0" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <structure name="Message" id="54" length="0" repeatmax="-1" encoding="ISO_8859-1:1987" signed="no">
+                <number name="Version" id="55" fillcolor="FCFF2B" type="integer" length="1"/>
+                <number name="Type" id="56" fillcolor="15FFF3" type="integer" length="1">
+                    <fixedvalues>
+                        <fixedvalue name="PDU" value="0"/>
+                        <fixedvalue name="CAN" value="1"/>
+                    </fixedvalues>
+                </number>
+                <number name="Reserved" id="57" fillcolor="560C00" type="integer" length="1"/>
+                <number name="Id1" id="58" fillcolor="A820FF" type="integer" length="1"/>
+                <number name="Id2" id="59" fillcolor="E015FF" type="integer" length="4"/>
+                <number name="Timestamp" id="60" fillcolor="FFACEA" type="integer" length="4"/>
+                <number name="PayloadLength" id="61" fillcolor="3C7F0A" type="integer" length="4"/>
+                <binary name="Payload" id="62" length="PayloadLength"/>
+            </structure>
+        </structure>
+    </grammar>
+</ufwb>
