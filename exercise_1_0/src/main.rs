@@ -23,7 +23,14 @@ fn greater(t1: Time, t2: Time) -> Time {
 
 // implement without cloning
 fn greatest(v: Vec<Time>) -> Time {
-    unimplemented!();
+    
+    let mut tmp: Time = Time { ms: 0 };
+    
+    for t in v {
+        if t.ms > tmp.ms { tmp.ms = t.ms }
+    }
+    
+    tmp
 }
 
 // references
