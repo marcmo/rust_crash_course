@@ -44,7 +44,14 @@ fn time_diff_in_ms(t1: &Time, t2: &Time) -> u64 {
 }
 
 fn greatest_ref(v: &Vec<Time>) -> &Time {
-    unimplemented!();
+    let mut tmp: &Time = &v[0]; 
+    // this will panic if there is not elaments in v
+    
+    for t in v {
+        if t.ms > tmp.ms { tmp = t }
+    }
+    
+    tmp
 }
 
 fn main() {}
