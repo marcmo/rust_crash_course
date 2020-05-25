@@ -14,7 +14,11 @@ fn in_hours(t: Time) -> u64 {
 }
 
 fn greater(t1: Time, t2: Time) -> Time {
-    unimplemented!();
+    if t1.ms >= t2.ms {
+        t1
+    } else {
+        t2
+    }
 }
 
 // implement without cloning
