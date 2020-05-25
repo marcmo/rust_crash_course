@@ -2,6 +2,7 @@
 pub struct Time {
     ms: u64,
 }
+
 impl Time {
     fn new(ms: u64) -> Self {
         Time { ms }
@@ -18,6 +19,11 @@ fn greater(t1: Time, t2: Time) -> Time {
 
 // implement without cloning
 fn greatest(v: Vec<Time>) -> Time {
+    unimplemented!();
+}
+
+// references
+fn time_diff_in_ms(t1: &Time, t2: &Time) -> u64 {
     unimplemented!();
 }
 
@@ -50,6 +56,14 @@ mod test {
         let v = vec![Time::new(1), Time::new(5)];
         let res = greatest(v);
         assert_eq!(5, res.ms);
+    }
+
+    #[test]
+    fn test_time_diff() {
+        let t1 = Time::new(1);
+        let t2 = Time::new(10);
+        assert_eq!(9, time_diff_in_ms(&t1, &t2));
+        assert_eq!(9, time_diff_in_ms(&t2, &t1));
     }
 
     #[test]
