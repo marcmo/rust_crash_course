@@ -10,7 +10,7 @@ impl Time {
 }
 
 fn in_hours(t: Time) -> u64 {
-    unimplemented!();
+    t.ms /3600_000
 }
 
 fn greater(t1: Time, t2: Time) -> Time {
