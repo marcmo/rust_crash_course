@@ -28,7 +28,12 @@ fn greatest(v: Vec<Time>) -> Time {
 
 // references
 fn time_diff_in_ms(t1: &Time, t2: &Time) -> u64 {
-    unimplemented!();
+    
+    let mut diff: i64 = (t1.ms as i64) - (t2.ms as i64);
+    
+    if diff < 0 { diff = -diff };
+    
+    diff as u64
 }
 
 fn greatest_ref(v: &Vec<Time>) -> &Time {
