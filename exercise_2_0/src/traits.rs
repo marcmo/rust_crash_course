@@ -13,7 +13,9 @@ trait AppendBar {
 }
 
 impl AppendBar for String {
-    //Add your code here
+    fn append_bar(self) -> Self {
+        String::from(format!("{}{}", self.as_str(), "Bar"))
+    }
 }
 
 fn example() {
@@ -34,11 +36,13 @@ fn example() {
 // you can do this!
 
 // I AM NOT DONE
-
-trait AppendBar {
-    fn append_bar(self) -> Self;
+impl AppendBar for Vec<String> {
+    fn append_bar(self) -> Self {
+        let mut vec: Vec<String> = self.to_vec();
+        vec.push(String::from("Bar"));
+        vec
+    }
 }
-
 //TODO: Add your code here
 
 #[cfg(test)]
@@ -57,11 +61,11 @@ mod tests {
             String::from("BarBar")
         );
     }
-
     #[test]
     fn is_vec_pop_eq_bar() {
         let mut foo = vec![String::from("Foo")].append_bar();
         assert_eq!(foo.pop().unwrap(), String::from("Bar"));
         assert_eq!(foo.pop().unwrap(), String::from("Foo"));
     }
+
 }
