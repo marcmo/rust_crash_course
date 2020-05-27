@@ -26,7 +26,7 @@ fn greatest(v: Vec<Time>) -> Time {
     
     let mut tmp: Time = Time { ms: 0 };
     
-    for t in v {
+    for t in &v {
         if t.ms > tmp.ms { tmp.ms = t.ms }
     }
     
