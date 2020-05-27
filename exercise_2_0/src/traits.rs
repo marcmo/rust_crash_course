@@ -7,14 +7,14 @@
 // which appends "Bar" to any object
 // implementing this trait.
 
-// I AM NOT DONE
+
 trait AppendBar {
     fn append_bar(self) -> Self;
 }
 
 impl AppendBar for String {
     fn append_bar(self) -> Self {
-        unimplemented!();
+        self + "Bar"
     }
 }
 
@@ -35,11 +35,15 @@ fn example() {
 // No boiler plate code this time,
 // you can do this!
 
-// I AM NOT DONE
+
 
 impl AppendBar for Vec<String> {
     fn append_bar(self) -> Self {
-        unimplemented!();
+        let mut res = self;
+        
+        res.push("Bar".to_string());
+        
+        res
     }
 }
 
