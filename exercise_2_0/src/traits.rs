@@ -13,7 +13,9 @@ trait AppendBar {
 }
 
 impl AppendBar for String {
-    //Add your code here
+    fn append_bar(self) -> Self {
+        unimplemented!();
+    }
 }
 
 fn example() {
@@ -35,8 +37,10 @@ fn example() {
 
 // I AM NOT DONE
 
-trait AppendBar {
-    fn append_bar(self) -> Self;
+impl AppendBar for Vec<String> {
+    fn append_bar(self) -> Self {
+        unimplemented!();
+    }
 }
 
 //TODO: Add your code here

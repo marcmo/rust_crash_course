@@ -4,19 +4,19 @@
 // I AM NOT DONE
 
 fn example() {
-    let mut shopping_list: Vec<?> = Vec::new();
-    shopping_list.push("milk");
-}
+    let mut shopping_list: Vec<String> = Vec::new();
+    shopping_list.push("milk".to_string());
+}   
  // This powerful wrapper provides the ability to store a positive integer value.
 // Rewrite it using generics so that it supports wrapping ANY type.
 
 // I AM NOT DONE
-struct Wrapper {
-    value: u32
+struct Wrapper<T> {
+    value: T
 }
 
-impl Wrapper {
-    pub fn new(value: u32) -> Self {
+impl<T> Wrapper<T> {
+    pub fn new(value: T) -> Self {
         Wrapper { value }
     }
 }
