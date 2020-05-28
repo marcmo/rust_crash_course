@@ -49,10 +49,12 @@ impl Decoder4b {
     
     pub fn decode (&mut self, input : u8) -> Option<u32> {
         if self.state < 4 {
-            self.data << 8;
+            self.data = self.data << 8;
             self.data |= input as u32;
             self.state += 1;
         }
+        
+        dbg!(self.data);
         
         if self.state >= 4 {
             
@@ -71,6 +73,7 @@ impl Decoder4b {
 struct Decoder {
     state: u8,
     keep : Decoder4b,
+    data_size: u32,
     msg : Message,
 }
 
@@ -80,6 +83,7 @@ impl Decoder {
         Decoder {
             state : 0,
             keep : Decoder4b::new(),
+            data_size: 0,
             msg : Message::new(),
         }
     }
@@ -135,11 +139,38 @@ impl Decoder {
                 }
                 
                 
+                6 => {
+                    let ret = self.keep.decode(*c);
+                    match ret {
+                        Some(num) => {
+                            self.data_size = num;
+                            self.state += 1;
+                        }
+                        None => {}
+                    }
+                }
+                
+                7 => {
+                    dbg!(&self.data_size);
+                    
+                    self.msg.data.push(*c);
+                    
+                    if self.msg.data.len() >= self.data_size as usize {
+                        println!("{:?}", &self.msg);
+                    
+                    
+                    self.msg = Message::new();
+                    self.data_size = 0;
+                    self.state = 0;
+                    }
+                    
+                }
+                
+                
                 _ => {println!("Bad state");}
             }
         }
         
-        dbg!(&self.msg);
     }
 }
 
