@@ -214,13 +214,20 @@ fn main() {
     
     let mut buf=[0u8;256];
     
-    let rd = file.read(&mut buf);
-    match rd {
-        Err(_) => {
-            eprintln!("Error READING");
-        }
-        Ok(n) => {
-            dc.decode(&buf[0..n]);
+    loop {
+        let rd = file.read(&mut buf);
+        match rd {
+            Err(e) => {
+                eprintln!("Error READING {:?}", e);
+                break;
+            }
+            Ok(n) if n == 0 => {
+                eprintln!("EOF");
+                break;
+            }
+            Ok(n) => {
+                dc.decode(&buf[0..n]);
+            }
         }
     }
     
