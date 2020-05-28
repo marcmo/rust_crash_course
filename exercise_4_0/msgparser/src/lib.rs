@@ -107,7 +107,7 @@ mod tests {
 
     #[test]
     fn decode() {
-        match File::open("/storage/projects/esrlabs/rust/msgparser/test/messages.bin") {
+        match File::open("./test/messages.bin") {
             Ok(mut file) => {
                 let mut buffer = Vec::new();
                 let mut msgs: Vec<Msg> = Vec::new();
