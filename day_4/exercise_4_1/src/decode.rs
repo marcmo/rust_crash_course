@@ -7,6 +7,7 @@ use std::io::Read;
 use std::vec;
 
 
+#[derive(Debug)]
 struct Message {
     version: u8,
     tp: u8,
@@ -16,6 +17,7 @@ struct Message {
     timestamp: u32,
     data: Vec<u8>,
 }
+
 
 impl Message {
     pub fn new() -> Self {
@@ -33,6 +35,8 @@ impl Message {
 
 struct Decoder {
     state: u8,
+    keep : u32,
+    keep_state : u8,
     msg : Message,
 }
 
@@ -41,6 +45,8 @@ impl Decoder {
     pub fn new() -> Self {
         Decoder {
             state : 0,
+            keep : 0,
+            keep_state : 0,
             msg : Message::new(),
         }
     }
@@ -73,16 +79,25 @@ impl Decoder {
                     self.state += 1;
                 }
                 
-//                 0 => {
-//                     self.msg.version = *c;
-//                     self.state += 1;
-//                 }
+                4 => {
+                    self.keep << 8;
+                    self.keep |= (*c as u32);
+                    self.keep_state += 1;
+                    
+                    if self.keep_state >= 4 {
+                        self.msg.id2 = self.keep;
+                        self.keep = 0;
+                        self.keep_state = 0;
+                        self.state += 1;
+                    }
+                }
                 
                 
                 _ => {println!("Bad state");}
             }
         }
         
+        dbg!(&self.msg);
     }
 }
 
