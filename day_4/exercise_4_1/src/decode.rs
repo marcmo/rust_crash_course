@@ -167,7 +167,7 @@ impl Decoder {
                 }
                 
                 
-                _ => {println!("Bad state");}
+                _ => {eprintln!("Bad state");}
             }
         }
         
@@ -177,22 +177,22 @@ impl Decoder {
 
 fn main() {
     
-    println!("----------");
-    println!("Decode");
-    println!("");
+    eprintln!("----------");
+    eprintln!("Decode");
+    eprintln!("");
     
     
     let args_vec: Vec<String> = env::args().collect();
-    println!("Args {:?}", args_vec);
+    eprintln!("Args {:?}", args_vec);
     
     if args_vec.len() != 2 {
-        println!("Wrong argument");
+        eprintln!("Wrong argument");
         std::process::exit(1);
     }
     
     let file_name = &args_vec[1];
     
-    println!("Read from {:?}", file_name);
+    eprintln!("Read from {:?}", file_name);
     
     
     let mut file = match File::open(file_name) {
@@ -205,7 +205,7 @@ fn main() {
     
     
     
-    println!("File opened");
+    eprintln!("File opened");
     
     let mut dc = Decoder::new();
     
@@ -214,7 +214,7 @@ fn main() {
     let rd = file.read(&mut buf);
     match rd {
         Err(_) => {
-            println!("Error READING");
+            eprintln!("Error READING");
         }
         Ok(n) => {
             dc.decode(&buf[0..n]);
