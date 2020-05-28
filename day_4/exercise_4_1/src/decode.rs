@@ -33,10 +33,44 @@ impl Message {
     }
 }
 
+
+struct Decoder4b {
+    data : u32,
+    state : u8,
+}
+
+impl Decoder4b {
+    pub fn new() -> Self {
+        Decoder4b {
+            state: 0,
+            data: 0,
+        }
+    }
+    
+    pub fn decode (&mut self, input : u8) -> Option<u32> {
+        if self.state < 4 {
+            self.data << 8;
+            self.data |= input as u32;
+            self.state += 1;
+        }
+        
+        if self.state >= 4 {
+            
+            let res = self.data;
+            
+            self.data = 0;
+            self.state = 0;
+            
+            Some(res)
+        } else {
+            None
+        }
+    }
+}
+
 struct Decoder {
     state: u8,
-    keep : u32,
-    keep_state : u8,
+    keep : Decoder4b,
     msg : Message,
 }
 
@@ -45,8 +79,7 @@ impl Decoder {
     pub fn new() -> Self {
         Decoder {
             state : 0,
-            keep : 0,
-            keep_state : 0,
+            keep : Decoder4b::new(),
             msg : Message::new(),
         }
     }
@@ -80,15 +113,24 @@ impl Decoder {
                 }
                 
                 4 => {
-                    self.keep << 8;
-                    self.keep |= (*c as u32);
-                    self.keep_state += 1;
-                    
-                    if self.keep_state >= 4 {
-                        self.msg.id2 = self.keep;
-                        self.keep = 0;
-                        self.keep_state = 0;
-                        self.state += 1;
+                    let ret = self.keep.decode(*c);
+                    match ret {
+                        Some(num) => {
+                            self.msg.id2 = num;
+                            self.state += 1;
+                        }
+                        None => {}
+                    }
+                }
+                
+                5 => {
+                    let ret = self.keep.decode(*c);
+                    match ret {
+                        Some(num) => {
+                            self.msg.timestamp = num;
+                            self.state += 1;
+                        }
+                        None => {}
                     }
                 }
                 
@@ -136,7 +178,7 @@ fn main() {
     
     let mut dc = Decoder::new();
     
-    let mut buf=[0u8;12];
+    let mut buf=[0u8;256];
     
     let rd = file.read(&mut buf);
     match rd {
