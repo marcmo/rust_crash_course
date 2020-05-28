@@ -2,9 +2,8 @@
 use std::env;
 
 use std::fs::File;
+use std::io;
 use std::io::Read;
-
-use std::vec;
 
 
 #[derive(Debug)]
@@ -185,27 +184,31 @@ fn main() {
     let args_vec: Vec<String> = env::args().collect();
     eprintln!("Args {:?}", args_vec);
     
-    if args_vec.len() != 2 {
-        eprintln!("Wrong argument");
-        std::process::exit(1);
+    
+    let mut file : Box<dyn io::Read>;
+    
+    if args_vec.len() < 2 {
+        file = Box::new(std::io::stdin());
+    } else {
+        
+        let file_name = &args_vec[1];
+        
+        eprintln!("Read from {:?}", file_name);
+        
+        
+        let f = match File::open(file_name) {
+            Ok(f) => f,
+            Err(_) => {
+                println!("Error oppen file {}", file_name);
+                std::process::exit(1);
+            }
+        };
+        
+        file = Box::new(f);
+        
+        eprintln!("File opened");
     }
     
-    let file_name = &args_vec[1];
-    
-    eprintln!("Read from {:?}", file_name);
-    
-    
-    let mut file = match File::open(file_name) {
-        Ok(f) => f,
-        Err(_) => {
-            println!("Error oppen file {}", file_name);
-            std::process::exit(1);
-        }
-    };
-    
-    
-    
-    eprintln!("File opened");
     
     let mut dc = Decoder::new();
     
