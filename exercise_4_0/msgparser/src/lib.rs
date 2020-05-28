@@ -1,4 +1,5 @@
 use bytebuffer::{ ByteBuffer };
+use std::fmt;
 
 const HEADER_LEN: usize = 16;
 
@@ -29,10 +30,29 @@ impl MsgHeader {
 
 }
 
+impl fmt::Display for MsgHeader {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{{\n\t\"version\": {},\n\t\"type\": {},\n\t\"reserved\": {},\n\t\"id_1\": {},\n\t\"id_2\": {},\n\t\"timestamp\": {},\n\t\"payload_length\": {},",
+            self.version,
+            self.msg_type,
+            self.reserved,
+            self.id_1,
+            self.id_2,
+            self.timestamp,
+            self.payload_length)
+    }
+}
+
 #[derive(Debug)]
 pub struct Msg {
     header: MsgHeader,
     payload: ByteBuffer,
+}
+
+impl fmt::Display for Msg {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}\n\t\"payload\": {:?}\n}}", self.header, self.payload.to_bytes())
+    }
 }
 
 #[derive(Debug)]
