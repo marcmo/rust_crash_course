@@ -13,7 +13,9 @@ trait AppendBar {
 }
 
 impl AppendBar for String {
-    //Add your code here
+    fn append_bar(self) -> Self {
+        self + "Bar"
+    }
 }
 
 fn example() {
@@ -35,8 +37,14 @@ fn example() {
 
 // I AM NOT DONE
 
-trait AppendBar {
-    fn append_bar(self) -> Self;
+impl AppendBar for Vec<String> {
+    fn append_bar(self) -> Self
+    {        
+        let mut mut_self = self;
+        let bar = String::from("Bar");
+        mut_self.push(bar);
+        mut_self
+    }
 }
 
 //TODO: Add your code here

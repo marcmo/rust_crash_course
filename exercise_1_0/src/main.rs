@@ -10,25 +10,36 @@ impl Time {
 }
 
 fn in_hours(t: Time) -> u64 {
-    unimplemented!();
+    t.ms / (3600 * 1000)
 }
 
 fn greater(t1: Time, t2: Time) -> Time {
-    unimplemented!();
+    if t1.ms > t2.ms { t1 } else { t2 } 
 }
 
 // implement without cloning
 fn greatest(v: Vec<Time>) -> Time {
-    unimplemented!();
+    let mut g : &Time = &v[0];
+    
+    for t in &v {
+        if t.ms > g.ms { g = t; }
+    }
+    
+    let result = Time{ms: g.ms};
+    result
 }
 
 // references
 fn time_diff_in_ms(t1: &Time, t2: &Time) -> u64 {
-    unimplemented!();
+    if t1.ms > t2.ms { t1.ms - t2.ms } else { t2.ms - t1.ms }
 }
 
 fn greatest_ref(v: &Vec<Time>) -> &Time {
-    unimplemented!();
+    let mut g: &Time = &v[0];
+    for t in v {
+        if t.ms > g.ms { g = t; }
+    }    
+    g
 }
 
 fn main() {}

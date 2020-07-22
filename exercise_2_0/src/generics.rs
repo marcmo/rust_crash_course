@@ -1,22 +1,18 @@
 // This shopping list program isn't compiling!
 // Use your knowledge of generics to fix it.
-
-// I AM NOT DONE
-
 fn example() {
-    let mut shopping_list: Vec<?> = Vec::new();
+    let mut shopping_list: Vec<&str> = Vec::new();
     shopping_list.push("milk");
 }
+
  // This powerful wrapper provides the ability to store a positive integer value.
 // Rewrite it using generics so that it supports wrapping ANY type.
-
-// I AM NOT DONE
-struct Wrapper {
-    value: u32
+struct Wrapper<T> {
+    value: T
 }
 
-impl Wrapper {
-    pub fn new(value: u32) -> Self {
+impl<T> Wrapper<T> {
+    pub fn new(value: T) -> Self {
         Wrapper { value }
     }
 }
@@ -28,17 +24,23 @@ impl Wrapper {
 
 // Make the necessary code changes to support alphabetical report cards, thereby making the second
 // test pass.
+pub enum Grade {
+    Numerical(f32),
+    Alphabetical(String)
+}
 
-// I AM NOT DONE
 pub struct ReportCard {
-    pub grade: f32,
+    pub grade: Grade,
     pub student_name: String,
     pub student_age: u8,
 }
 
 impl ReportCard {
     pub fn print(&self) -> String {
-        format!("{} ({}) - achieved a grade of {}", &self.student_name, &self.student_age, &self.grade)
+        format!("{} ({}) - achieved a grade of {}", &self.student_name, &self.student_age, match &self.grade {
+            Grade::Numerical(grade) => grade.to_string(),
+            Grade::Alphabetical(grade) => grade.clone()
+        })
     }
 }
 
@@ -59,7 +61,7 @@ mod tests {
     #[test]
     fn generate_numeric_report_card() {
         let report_card = ReportCard {
-            grade: 2.1,
+            grade: Grade::Numerical(2.1),
             student_name: "Tom Wriggle".to_string(),
             student_age: 12,
         };
@@ -68,9 +70,8 @@ mod tests {
 
     #[test]
     fn generate_alphabetic_report_card() {
-        // TODO: Make sure to change the grade here after you finish the exercise.
         let report_card = ReportCard {
-            grade: 2.1,
+            grade: Grade::Alphabetical(String::from("A+")),
             student_name: "Gary Plotter".to_string(),
             student_age: 11,
         };
